@@ -1,7 +1,7 @@
 import { SET_MOVIES } from '../actions/movies';
 
 const initialState = {   
-    movies: [],
+    movies: null,
 }
 
 const moviesReducer = (state = initialState , action)=>{

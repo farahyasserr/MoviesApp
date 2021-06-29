@@ -1,5 +1,5 @@
 import MoviesScreen from './MoviesScreen';
 
-export default{
+export{
     MoviesScreen,
 }

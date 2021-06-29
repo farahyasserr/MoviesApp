@@ -8,13 +8,19 @@ const MoviesList = ({
     return (
         <FlatList
             data={data}
+            numColumns={2}
+            ListEmptyComponent= {<Text style={styles.text}>this movie does not exist</Text>}
+            columnWrapperStyle={{justifyContent: 'space-between'}}
+            style={styles.list}
             renderItem={({ item }) => (
-                <View style={styles.touchop}>
+                <TouchableOpacity style={styles.touchop} onPress={()=>{console.log("pressed!")}}>
+                <View >
                     <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item.poster_path}` }} style={styles.image} />
                     <Text style={styles.movieName}>{item.original_title}</Text>
                     <Text style={styles.title}>Release Date: <Text style={styles.body}>{item.release_date}</Text></Text> 
-                    <Text style={styles.title}>Overview: <Text style={styles.body}>{item.overview}</Text></Text>
+                    <Text  ellipsizeMode='tail' numberOfLines={2} style={styles.title}>Overview: <Text style={styles.body}>{item.overview}</Text></Text>
                 </View>
+                </TouchableOpacity>
             )} />
 
     )
@@ -23,8 +29,8 @@ const MoviesList = ({
 const styles = StyleSheet.create({
     touchop: {
         backgroundColor: 'white',
-        marginBottom: 20,
-        flex: 1,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
         paddingBottom: 10,
@@ -33,6 +39,8 @@ const styles = StyleSheet.create({
         shadowColor: 'black',
         shadowOpacity: 0.3,
         shadowRadius: 3,
+        width: '48%',
+        marginVertical:5
     },
     text: {
         textAlign: 'center',
@@ -49,14 +57,18 @@ const styles = StyleSheet.create({
     image: {
         width: '100%',
         height: 200,
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
     },
     movieName:{
         fontWeight: 'bold',
         fontSize: 16,
         textAlign: 'center',
         marginVertical: 10
+    },
+    list:{
+        // backgroundColor: 'red',
+        // padding:5
     }
 })
 

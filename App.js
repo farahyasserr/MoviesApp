@@ -20,7 +20,7 @@ import {Provider} from 'react-redux';
 
 import moviesReducer from './src/store/reducers/moviesReducer';
 
-import MoviesScreen from './src/screens/MoviesScreen';
+import {MoviesScreen} from './src/screens';
 
 const rootReducer = combineReducers({
   movies: moviesReducer
