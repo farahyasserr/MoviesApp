@@ -66,7 +66,7 @@ const MoviesScreen = props => {
                     <MoviesList
                         data={movies}
                         getMoreMovies={loadMoreHandler}
-                        loadingMore={loadingMore}
+                        hasMore={hasMoreMovies}
                     />}
             </View>
         </View>

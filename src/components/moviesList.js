@@ -4,22 +4,23 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, ActivityIndi
 const MoviesList = ({
     data,
     getMoreMovies,
-    loadingMore
+    hasMore
 }) => {
 
     return (
         <FlatList
             data={data}
+            keyExtractor={(_,index) => index.toString()}
             numColumns={2}
             ListEmptyComponent={<Text style={styles.text}>This movie does not exist</Text>}
             columnWrapperStyle={{ justifyContent: 'space-between' }}
             style={styles.list}
             onEndReached={() => {
-                if (!loadingMore)
+                if (hasMore)
                     getMoreMovies()
             }}
-            onEndReachedThreshold={Platform.OS === 'android' ? 1 : 0}
-            ListFooterComponent={loadingMore && <ActivityIndicator color="black" size={30} />}
+            onEndReachedThreshold={Platform.OS === 'android' ? 0.5 : 0}
+            ListFooterComponent={hasMore &&<ActivityIndicator color="black" size={30} />}
             renderItem={({ item }) => (
                 <TouchableOpacity style={styles.touchop} onPress={() => { console.log("pressed!") }}>
                     <View >
