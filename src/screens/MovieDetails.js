@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image} from 'react-native';
 import { Button } from '../components';
 import Colors from '../constants/Colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     },
     subcontainer: {
         flex: 1,
-        // backgroundColor: 'blue'
     },
     movieName: {
         textAlign: 'center',
