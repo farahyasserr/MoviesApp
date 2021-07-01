@@ -2,20 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, FlatList, ActivityIndicator, Text, TextInput } from 'react-native';
 import { getMovies, loadMoreMovies } from '../services/movies';
 import { useDispatch, useSelector } from 'react-redux';
-import MoviesList from '../components/moviesList';
-import Button from '../components/button';
+import {Button,MoviesList} from '../components';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import SearchHistoryList from '../components/searchHistoryList';
+import Colors from '../constants/Colors';
 
-const MoviesScreen = props => {
-
-    const [isLoading, setIsLoading] = useState(false);
-    const dispatch = useDispatch()
+const MoviesScreen = ({navigation}) => {
     const [searchText, setSearchText] = useState('');
     const [pageNumber, setPageNumber] = useState(2)
+    const [showHistory, setShowHistory] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
+
+    const dispatch = useDispatch()
+
+
     const movies = useSelector(state => state.movies.movies);
     const hasMoreMovies = useSelector(state => state.movies.hasMore);
-    const loadingMore = useSelector(state => state.movies.loadingMore);
-
+    const searchHistory = useSelector(state => state.movies.searchHistory);
 
     useEffect(() => {
         if (movies) {
@@ -24,10 +27,10 @@ const MoviesScreen = props => {
 
     }, [movies])
 
-    const searchHandler = async () => {
+    const searchHandler = async (text) => {
         setPageNumber(2)
         setIsLoading(true);
-        getMovies(dispatch, searchText)
+        getMovies(dispatch, text ?? searchText)
         // setIsLoading(false);
         Keyboard.dismiss();
     }
@@ -48,14 +51,26 @@ const MoviesScreen = props => {
                         style={styles.searchBar}
                         underlineColorAndroid="transparent"
                         value={searchText}
-                        onChangeText={(text) => { setSearchText(text) }}
+                        onChangeText={(text) => {
+                            setSearchText(text)
+                            setShowHistory(text === '')
+                        }}
+                        onFocus={() => setShowHistory(searchText === '')}
+                        onBlur={() => setShowHistory(false)}
                     />
                 </View>
-                <Button
-                    title="Search"
-                    style={styles.button}
-                    onPress={() => { searchHandler() }}
-                />
+                {showHistory && searchHistory.length > 0 &&
+                    <SearchHistoryList
+                        data={searchHistory}
+                        onSearchHistoryItemPress={(item) => {
+                            setSearchText(item)
+                            setShowHistory(false)
+                            searchHandler(item)
+                        }}
+                    />
+                }
+
+
 
                 {(isLoading) ?
                     <View style={styles.acContainer}>
@@ -67,11 +82,22 @@ const MoviesScreen = props => {
                         data={movies}
                         getMoreMovies={loadMoreHandler}
                         hasMore={hasMoreMovies}
-                    />}
+                    />
+                }
+
+                <Button
+                    title="Search"
+                    style={styles.button}
+                    onPress={() => { searchHandler() }}
+                    disabled={searchText === ''}
+                />
             </View>
         </View>
+    
     )
 }
+
+
 
 const styles = StyleSheet.create({
     screen: {
@@ -99,7 +125,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     button: {
-        backgroundColor: '#000099'
+        backgroundColor: Colors.primaryColor,
     },
     inputContainer: {
         justifyContent: 'center',

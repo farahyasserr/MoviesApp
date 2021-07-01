@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, ActivityIndicator, Platform } from 'react-native';
+import NavigationService from '../services/navigationServices';
 
 const MoviesList = ({
     data,
@@ -7,10 +8,17 @@ const MoviesList = ({
     hasMore
 }) => {
 
+
+    const moviePressHandler = (item) => {
+        console.log("pressed!");
+        NavigationService.navigate('MovieDetails',{
+                Movie: item
+            })
+    }
     return (
         <FlatList
             data={data}
-            keyExtractor={(_,index) => index.toString()}
+            keyExtractor={(_, index) => index.toString()}
             numColumns={2}
             ListEmptyComponent={<Text style={styles.text}>This movie does not exist</Text>}
             columnWrapperStyle={{ justifyContent: 'space-between' }}
@@ -20,9 +28,9 @@ const MoviesList = ({
                     getMoreMovies()
             }}
             onEndReachedThreshold={Platform.OS === 'android' ? 0.5 : 0}
-            ListFooterComponent={hasMore &&<ActivityIndicator color="black" size={30} />}
+            ListFooterComponent={hasMore && <ActivityIndicator color="black" size={30} />}
             renderItem={({ item }) => (
-                <TouchableOpacity style={styles.touchop} onPress={() => { console.log("pressed!") }}>
+                <TouchableOpacity style={styles.touchop} onPress={() => { moviePressHandler(item) }}>
                     <View >
                         <Image source={{ uri: `https://image.tmdb.org/t/p/original/${item.poster_path}` }} style={styles.image} />
                         <Text style={styles.movieName}>{item.original_title}</Text>

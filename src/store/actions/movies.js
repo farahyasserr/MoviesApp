@@ -1,12 +1,12 @@
 export const SET_MOVIES = 'SET_MOVIES';
 export const ADD_MORE_MOVIES = 'ADD_MORE_MOVIES'
-export const LOADING_MORE = 'LOADING_MORE'
-
+export const ADD_MOVIE_TO_SEARCH_HISTORY = 'ADD_MOVIE_TO_SEARCH_HISTORY'
 export const setMovies = moviesData => ({
     type: SET_MOVIES,
     payload: {
         movies: moviesData.results,
-        hasMore: moviesData.page < moviesData.total_pages
+        hasMore: moviesData.page < moviesData.total_pages, 
+        movieName: moviesData.movieName
     },
 });
 
@@ -18,8 +18,10 @@ export const addMoreMovies = moviesData => ({
     },
 });
 
-export const loadingMore = () => ({
-    type: LOADING_MORE,
-});
+export const addToSearchHistory = movieName => ({
+    type: ADD_MOVIE_TO_SEARCH_HISTORY, 
+    payload: movieName
+})
+
 
 
