@@ -24,10 +24,9 @@ const MoviesNavigator = createStackNavigator(
             navigationOptions:{
                 headerTitleAlign: 'center'
             }
-
         },
         MovieDetails: {
-            screen: MovieDetails
+            screen: MovieDetails,
         }
     }, {
     defaultNavigationOptions: defaultStackNavOptions

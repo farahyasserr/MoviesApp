@@ -28,7 +28,7 @@ const MoviesList = ({
                     getMoreMovies()
             }}
             onEndReachedThreshold={Platform.OS === 'android' ? 0.5 : 0}
-            ListFooterComponent={hasMore && <ActivityIndicator color="black" size={30} />}
+            ListFooterComponent={hasMore && <ActivityIndicator color="white" size={30} />}
             renderItem={({ item }) => (
                 <TouchableOpacity style={styles.touchop} onPress={() => { moviePressHandler(item) }}>
                     <View >

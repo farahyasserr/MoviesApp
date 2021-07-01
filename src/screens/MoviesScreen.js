@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, FlatList, ActivityIndicator, Text, TextInput } from 'react-native';
 import { getMovies, loadMoreMovies } from '../services/movies';
 import { useDispatch, useSelector } from 'react-redux';
-import {Button,MoviesList} from '../components';
+import { Button, MoviesList } from '../components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SearchHistoryList from '../components/searchHistoryList';
 import Colors from '../constants/Colors';
 
-const MoviesScreen = ({navigation}) => {
+const MoviesScreen = ({ navigation }) => {
     const [searchText, setSearchText] = useState('');
     const [pageNumber, setPageNumber] = useState(2)
     const [showHistory, setShowHistory] = useState(false)
@@ -31,7 +31,6 @@ const MoviesScreen = ({navigation}) => {
         setPageNumber(2)
         setIsLoading(true);
         getMovies(dispatch, text ?? searchText)
-        // setIsLoading(false);
         Keyboard.dismiss();
     }
     const loadMoreHandler = () => {
@@ -45,7 +44,7 @@ const MoviesScreen = ({navigation}) => {
         <View style={styles.screen}>
             <View style={styles.container}>
                 <View style={styles.inputContainer}>
-                    <Icon name="search" size={20} color="#A8A8A8" style={styles.icon} />
+                    <Icon name="search" size={20} color="#A8A8A8" style={styles.searchIcon} />
                     <TextInput
                         placeholder="Search..."
                         style={styles.searchBar}
@@ -58,10 +57,13 @@ const MoviesScreen = ({navigation}) => {
                         onFocus={() => setShowHistory(searchText === '')}
                         onBlur={() => setShowHistory(false)}
                     />
+                    <Icon name="remove" size={20} color="#A8A8A8" onPress={() => { setSearchText(''); setShowHistory(true)}} style={styles.removeIcon} />
+
                 </View>
                 {showHistory && searchHistory.length > 0 &&
                     <SearchHistoryList
                         data={searchHistory}
+                        style={StyleSheet.searchHistory}
                         onSearchHistoryItemPress={(item) => {
                             setSearchText(item)
                             setShowHistory(false)
@@ -74,7 +76,7 @@ const MoviesScreen = ({navigation}) => {
 
                 {(isLoading) ?
                     <View style={styles.acContainer}>
-                        <ActivityIndicator size="large" color='black' />
+                        <ActivityIndicator size="large" color='white' />
                     </View>
                     :
                     (movies) &&
@@ -84,16 +86,17 @@ const MoviesScreen = ({navigation}) => {
                         hasMore={hasMoreMovies}
                     />
                 }
+                {
+                    <Button
+                        title="Search"
+                        style={styles.button}
+                        onPress={() => { searchHandler() }}
+                        disabled={searchText === ''}
+                    />}
 
-                <Button
-                    title="Search"
-                    style={styles.button}
-                    onPress={() => { searchHandler() }}
-                    disabled={searchText === ''}
-                />
             </View>
         </View>
-    
+
     )
 }
 
@@ -102,6 +105,7 @@ const MoviesScreen = ({navigation}) => {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
+        backgroundColor: '#404040'
     },
     container: {
         flex: 1,
@@ -137,9 +141,15 @@ const styles = StyleSheet.create({
         // paddingHorizontal: 15,
         width: '100%'
     },
-    icon: {
+    searchIcon: {
         marginLeft: 10,
         marginRight: 5
+    },
+    searchHistory: {
+
+    },
+    removeIcon: {
+        marginRight: 12
     }
 })
 

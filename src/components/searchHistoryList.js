@@ -12,7 +12,7 @@ const SearchHistoryList = ({
             keyExtractor={(_, index) => index.toString()}
             style={styles.list}
             keyboardShouldPersistTaps={"always"}
-            ListHeaderComponent={<Text>Recent searches</Text>}
+            ListHeaderComponent={<Text style={styles.header}>Recent searches</Text>}
             renderItem={({ item }) => (
                 <TouchableOpacity style={styles.container} onPress={() => onSearchHistoryItemPress(item)}>
                     <Text style={styles.textStyle}>{item}</Text>
@@ -34,8 +34,12 @@ const styles = StyleSheet.create({
     },
     list: {
         backgroundColor: 'white',
-        maxHeight: 100
+        maxHeight: 200
     },
+    header:{
+        alignSelf: 'center',
+        color: '#A8A8A8'
+    }
 })
 
 export default SearchHistoryList;
