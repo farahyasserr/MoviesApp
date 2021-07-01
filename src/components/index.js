@@ -1,9 +1,7 @@
 import Button from './button';
-import MovieItem from './movieItem';
-import MoviesList from './moviesList';
+import SearchInput from './searchInput';
 
 export{
     Button, 
-    MoviesList, 
-    MovieItem
+    SearchInput
 }

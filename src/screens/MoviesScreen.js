@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, FlatList, ActivityIndicator, Text, TextInput } from 'react-native';
+import { View, StyleSheet, Keyboard, ActivityIndicator } from 'react-native';
 import { getMovies, loadMoreMovies } from '../services/movies';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, MoviesList } from '../components';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import SearchHistoryList from '../components/searchHistoryList';
+import { Button, SearchInput } from '../components';
+import { MoviesList, SearchHistoryList } from '../blocks';
 import Colors from '../constants/Colors';
 
-const MoviesScreen = ({ navigation }) => {
+const MoviesScreen = props => {
     const [searchText, setSearchText] = useState('');
     const [pageNumber, setPageNumber] = useState(2)
     const [showHistory, setShowHistory] = useState(false)
     const [isLoading, setIsLoading] = useState(false);
 
     const dispatch = useDispatch()
-
 
     const movies = useSelector(state => state.movies.movies);
     const hasMoreMovies = useSelector(state => state.movies.hasMore);
@@ -24,7 +22,6 @@ const MoviesScreen = ({ navigation }) => {
         if (movies) {
             setIsLoading(false)
         }
-
     }, [movies])
 
     const searchHandler = async (text) => {
@@ -43,23 +40,18 @@ const MoviesScreen = ({ navigation }) => {
     return (
         <View style={styles.screen}>
             <View style={styles.container}>
-                <View style={styles.inputContainer}>
-                    <Icon name="search" size={20} color="#A8A8A8" style={styles.searchIcon} />
-                    <TextInput
-                        placeholder="Search..."
-                        style={styles.searchBar}
-                        underlineColorAndroid="transparent"
-                        value={searchText}
-                        onChangeText={(text) => {
-                            setSearchText(text)
-                            setShowHistory(text === '')
-                        }}
-                        onFocus={() => setShowHistory(searchText === '')}
-                        onBlur={() => setShowHistory(false)}
-                    />
-                    <Icon name="remove" size={20} color="#A8A8A8" onPress={() => { setSearchText(''); setShowHistory(true)}} style={styles.removeIcon} />
 
-                </View>
+                <SearchInput
+                    onChangeText={(text) => {
+                        setSearchText(text)
+                        setShowHistory(text === '')
+                    }}
+                    onFocus={() => setShowHistory(searchText === '')}
+                    onBlur={() => setShowHistory(false)}
+                    onPressRemoveIcon={() => { setSearchText(''); setShowHistory(true) }}
+                    searchText={searchText}
+                />
+
                 {showHistory && searchHistory.length > 0 &&
                     <SearchHistoryList
                         data={searchHistory}
@@ -71,8 +63,6 @@ const MoviesScreen = ({ navigation }) => {
                         }}
                     />
                 }
-
-
 
                 {(isLoading) ?
                     <View style={styles.acContainer}>
@@ -86,7 +76,7 @@ const MoviesScreen = ({ navigation }) => {
                         hasMore={hasMoreMovies}
                     />
                 }
-                {
+                {searchText.length > 0 &&
                     <Button
                         title="Search"
                         style={styles.button}
@@ -117,12 +107,7 @@ const styles = StyleSheet.create({
         flex: 1,
         borderRadius: 10,
     },
-    searchBar: {
-        height: 45,
-        textAlignVertical: 'bottom',
-        flex: 1,
-        borderBottomColor: 'transparent',
-    },
+
     acContainer: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -131,26 +116,6 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: Colors.primaryColor,
     },
-    inputContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-        backgroundColor: '#ddd',
-        borderRadius: 20,
-        marginVertical: 5,
-        // paddingHorizontal: 15,
-        width: '100%'
-    },
-    searchIcon: {
-        marginLeft: 10,
-        marginRight: 5
-    },
-    searchHistory: {
-
-    },
-    removeIcon: {
-        marginRight: 12
-    }
 })
 
 export default MoviesScreen;

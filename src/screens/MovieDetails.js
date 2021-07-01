@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, Alert } from 'react-native';
 import { Button } from '../components';
 import Colors from '../constants/Colors';
@@ -6,7 +6,20 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const MovieDetails = props => {
     const item = props.navigation.getParam('Movie');
-    console.log("hena", item);
+
+    const watchNowHandler = () => {
+        {
+            Alert.alert(
+                "Coming Soon", "Stay tuned!",
+                [
+                    {
+                        text: "Okay",
+                        style: "cancel"
+                    }
+                ]
+            );
+        }
+    }
 
     useEffect(() => {
         props.navigation.setParams({ movieTitle: item.title });
@@ -18,27 +31,22 @@ const MovieDetails = props => {
 
             <View style={styles.details}>
                 <Text style={styles.movieName}>{item.original_title}</Text>
-               
                 <Text style={styles.title}><Text style={styles.details}>{item.overview}</Text></Text>
-
-               
                 <View style={styles.detailsContainer}>
                     <View style={styles.innerContainer}>
                         <Icon name="line-chart" size={20} color="#A8A8A8" style={styles.icon} />
                         <Text style={styles.title}>Popularity: <Text style={styles.details}>{item.popularity}</Text></Text>
                     </View>
                     <View style={styles.innerContainer}>
-                    <Icon name="heart-o" size={20} color="#A8A8A8" style={styles.icon} />
-                    <Text style={styles.title}>Rating: <Text style={styles.details}>{item.vote_average}</Text></Text>
+                        <Icon name="heart-o" size={20} color="#A8A8A8" style={styles.icon} />
+                        <Text style={styles.title}>Rating: <Text style={styles.details}>{item.vote_average}</Text></Text>
                     </View>
                 </View>
                 {/* <View style={styles.innerContainer}>
                         <Icon name="calendar" size={16} color="#A8A8A8" style={styles.icon} />
                 <Text style={styles.title}><Text style={styles.details}>{item.release_date}</Text></Text>
-                </View>
-                 */}
-
-                <Button title="Watch now" style={{ backgroundColor: Colors.primaryColor }} onPress={() => { alert("Coming soon!") }} />
+                </View> */}
+                <Button title="Watch now" style={{ backgroundColor: Colors.primaryColor }} onPress={watchNowHandler} />
             </View>
         </ScrollView>
     )
@@ -77,7 +85,6 @@ const styles = StyleSheet.create({
     },
     subcontainer: {
         flex: 1,
-        // backgroundColor: 'blue'
     },
     movieName: {
         textAlign: 'center',

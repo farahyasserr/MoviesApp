@@ -7,11 +7,11 @@ import { persistStore, persistReducer } from 'redux-persist'
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    whitelist:['searchHistory']
+    whitelist: ['searchHistory']
 }
 
 const rootReducer = combineReducers({
-    movies:  persistReducer(persistConfig, moviesReducer)
+    movies: persistReducer(persistConfig, moviesReducer)
 })
 
 let store = createStore(rootReducer)
