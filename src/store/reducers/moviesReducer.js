@@ -14,8 +14,8 @@ const moviesReducer = (state = initialState, action) => {
             return { ...state, movies: state.movies.concat(action.payload.movies), hasMore: action.payload.hasMore }
         case ADD_MOVIE_TO_SEARCH_HISTORY:
             {
-                let newArr = (state.searchHistory.includes(action.payload) === false)?[action.payload].concat(state.searchHistory): state.searchHistory
-                newArr = newArr.slice(0,10)
+                let newArr = (state.searchHistory.includes(action.payload) === false) ? [action.payload].concat(state.searchHistory) : state.searchHistory
+                newArr = newArr.slice(0, 10)
                 return { ...state, searchHistory: [...newArr] }
             }
         default: return state;

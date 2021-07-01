@@ -1,12 +1,25 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, Alert } from 'react-native';
 import { Button } from '../components';
 import Colors from '../constants/Colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const MovieDetails = props => {
     const item = props.navigation.getParam('Movie');
-    console.log("hena", item);
+
+    const watchNowHandler = () => {
+        {
+            Alert.alert(
+                "Coming Soon", "Stay tuned!",
+                [
+                    {
+                        text: "Okay",
+                        style: "cancel"
+                    }
+                ]
+            );
+        }
+    }
 
     useEffect(() => {
         props.navigation.setParams({ movieTitle: item.title });
@@ -32,9 +45,8 @@ const MovieDetails = props => {
                 {/* <View style={styles.innerContainer}>
                         <Icon name="calendar" size={16} color="#A8A8A8" style={styles.icon} />
                 <Text style={styles.title}><Text style={styles.details}>{item.release_date}</Text></Text>
-                </View>
-                 */}
-                <Button title="Watch now" style={{ backgroundColor: Colors.primaryColor }} onPress={() => { alert("Coming soon!") }} />
+                </View> */}
+                <Button title="Watch now" style={{ backgroundColor: Colors.primaryColor }} onPress={watchNowHandler} />
             </View>
         </ScrollView>
     )

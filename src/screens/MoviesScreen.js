@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Keyboard,ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Keyboard, ActivityIndicator } from 'react-native';
 import { getMovies, loadMoreMovies } from '../services/movies';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, SearchInput } from '../components';
@@ -13,7 +13,6 @@ const MoviesScreen = props => {
     const [isLoading, setIsLoading] = useState(false);
 
     const dispatch = useDispatch()
-
 
     const movies = useSelector(state => state.movies.movies);
     const hasMoreMovies = useSelector(state => state.movies.hasMore);
