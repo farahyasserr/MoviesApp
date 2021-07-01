@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, SafeAreaView, Keyboard, TouchableWithoutFeedback, FlatList, ActivityIndicator, Text, TextInput } from 'react-native';
 import { getMovies, loadMoreMovies } from '../services/movies';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, MoviesList } from '../components';
+import { Button} from '../components';
+import {MoviesList, SearchHistoryList} from '../blocks';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import SearchHistoryList from '../components/searchHistoryList';
 import Colors from '../constants/Colors';
 
 const MoviesScreen = ({ navigation }) => {
@@ -86,7 +86,7 @@ const MoviesScreen = ({ navigation }) => {
                         hasMore={hasMoreMovies}
                     />
                 }
-                {
+                {searchText.length > 0 &&
                     <Button
                         title="Search"
                         style={styles.button}

@@ -10,7 +10,6 @@ const MoviesList = ({
 
 
     const moviePressHandler = (item) => {
-        console.log("pressed!");
         NavigationService.navigate('MovieDetails',{
                 Movie: item
             })
